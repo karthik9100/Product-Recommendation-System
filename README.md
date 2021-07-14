@@ -13,13 +13,21 @@ preferences so that you never loose what you searched for.
 Modules:
 
 FLASKBOLG - It is the directory where main code recides.
+
 FLASKBLOG -> STATIC - Contains all .css, image files
+
 FLASKBLOG ->TERMPLATES - Contains all .html files
+
 FLASKBLOG -> routes.py - All the routes are present over here.
+
 FLASKBLOG -> forms.py - Provides layout for register, login forms
+
 FLASKBLOG ->models.py - Contains all the database configurations 
 
+
+
 scripts.py - Contains the logic for extracting the data from web pages(web Scraping)
+
 run.py - Is where execution starts
 
 
