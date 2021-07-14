@@ -12,22 +12,16 @@ preferences so that you never loose what you searched for.
 
 Modules:
 
-● Login script:
-It authenticates users.
-● Register:
-It allows new users to register.
+FLASKBOLG - It is the directory where main code recides.
+FLASKBLOG -> STATIC - Contains all .css, image files
+FLASKBLOG ->TERMPLATES - Contains all .html files
+FLASKBLOG -> routes.py - All the routes are present over here.
+FLASKBLOG -> forms.py - Provides layout for register, login forms
+FLASKBLOG ->models.py - Contains all the database configurations 
 
-● Search:
-Whole objective of the project lies in this module. It takes
-keyword to search through different ecommerce sites and get
-required results.
+scripts.py - Contains the logic for extracting the data from web pages(web Scraping)
+run.py - Is where execution starts
 
-a. Accumulate:
-It gathers all the information related to the product including
-product price, reviews, ratings.
-b. Ranking:
-Based on reviews, ratings and price, each product is ranked.
-C. Sorting:Based on ranks, products are sorted.
 
 ● Hardware Requirements:
 1. Processor- Core i5
@@ -42,5 +36,4 @@ C. Sorting:Based on ranks, products are sorted.
 5. MySQL database
 6. HTML, CSS, Bootstrap
 
-● Output:
-Top products, based on their ranks, are suggested.
+
