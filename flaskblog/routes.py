@@ -2,11 +2,13 @@ from flaskblog.models import User
 from flaskblog import db
 from flaskblog import app
 from flask import render_template, request, url_for, flash, redirect
-from flaskblog.forms import RegistrationForm, LoginForm
+from flaskblog.forms import RegistrationForm, LoginForm,ResetpasswordForm
 from flask_login import login_user, current_user, logout_user, login_required
 from scripts import Query,filter_prices
 from flask_mail import Mail,Message
 from random import randint
+import threading
+import time
 
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = '465'
@@ -75,7 +77,17 @@ def home():
         if(request.method=="POST"):
             item = request.form['search']
             obj = Query()
-            obj.scratch(item)
+            # obj.scratch(item)
+            start = time.perf_counter()
+            t1 = threading.Thread(target=obj.amazon(item))
+            t2 = threading.Thread(target=obj.flipkart(item))
+            t1.start()
+            t2.start()
+            t1.join()
+            t2.join()
+            end = time.perf_counter()
+            print("operation took",round(end-start,2))
+
             names,prices,ratings,images,urls = obj.n,obj.p,obj.r,obj.im,obj.u 
             txt = "Other Recommendations".center(100,"-")
             if(names):
@@ -89,13 +101,16 @@ def home():
 @app.route("/resetpassword",methods = ["GET","POST"])
 def resetpassword():
     flag = 0
-    form = RegistrationForm()
+    form = ResetpasswordForm()
     if request.method == "POST":  
         flag=1
         mail_id = request.form['email']
     # mail.send_message("New message from blog",recipients=["karthikcosmic3@gmail.comn"],
     # body="click on the link provided below")
         user = User.query.filter_by(email=request.form["email"]).first()
+        if(user is None):
+            flash("User doesnot exists","warning")
+            return render_template("resetpassword.html",flag=0,title="Login",form=form)
         msg = Message(
                 'Password Reset',
                 sender ='myasusphone143@gmail.com',
@@ -111,18 +126,24 @@ def resetpassword():
 
 @app.route("/validate/<otp>",methods = ["GET","POST"])
 def validate(otp):   
+    form = ResetpasswordForm()
     otp,id=otp.split("-")
+    print(form.validate())
     if(request.method=="POST"):
         if(request.form["otp"]==otp):
             user = User.query.filter_by(id=id).first()
             user.password = request.form["password"]
-            db.session.commit()
-            flash("Password modified successfully","success")
+            if(user.password==request.form['confirm_password']):
+                db.session.commit()
+                flash("Password modified successfully","success")
 
-            return redirect(url_for("login"))
+                return redirect(url_for("login"))
+            else:
+                flash("Password should match","danger")
         else:
             flash("Invalid otp","danger")
-    return render_template("resetpassword.html",flag=1,title="Login")
+   
+    return render_template("resetpassword.html",flag=1,title="Login",form=form)
 
 @app.route("/logout")
 def logout():

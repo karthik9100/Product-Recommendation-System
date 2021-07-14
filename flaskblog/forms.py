@@ -36,17 +36,14 @@ class LoginForm(FlaskForm):
     # remember = BooleanField('remember me')
     submit = SubmitField('login up')
 
-    # def validate_email(self, email, password):
-    #     from flaskblog.models import User
-    #     user = User.query.filter_by(email=email.data).first()
-    #     print()
-    #     print(user.password)
-    #     print()
+class ResetpasswordForm(FlaskForm):
+    otp = StringField('otp', validators=[
+                           DataRequired(), Length(min=2, max=20)])
 
-    #     if user.password==password.data:
-    #         return True
-    #     else:
-    #         raise ValidationError(
-    #             "Please enter valid username and password")
+    password = PasswordField('password', validators=[DataRequired()])
+    confirm_password = PasswordField('confirm_password', validators=[
+                                     DataRequired(), EqualTo('password')])
+    submit = SubmitField('submit')
+
 
         

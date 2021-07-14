@@ -155,7 +155,7 @@ body{
 }
 .outlay .lorem{
     flex:1 1 500px;
-    background: #e3e0cf;;
+    background:white;
     max-width: 500px;
     display: inline;
     margin-top: 10px;
@@ -187,7 +187,7 @@ body{
     -ms-transform: scale(1.5); /* IE 9 */
     -webkit-transform: scale(1.5); /* Safari 3-8 */
     transform: scale(1.1); 
-    background:white;
+    background: #e3e0cf;
     transition: .5s;
 }
 .outlay a.active, a:hover{
